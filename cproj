@@ -1,3 +1,77 @@
+#!/usr/bin/env bash
+
+if [ "$#" -eq 0 ]; then
+    SNAME="${PWD##*/}.c"  # source name
+    ENAME="${PWD##*/}"  # executable name
+    ANAME="${PWD##*/}.zip"  # archive name
+fi
+
+if [ "$#" -eq 1 ]; then
+    SNAME="${1%.*}.c"  # source name
+    ENAME="${1%.*}"  # executable name
+    ANAME="${PWD##*/}.zip"  # archive name
+fi
+
+if [ "$#" -eq 2 ]; then
+    SNAME="${1%.*}.c"  # source name
+    ENAME="${2%.*}"  # executable name
+    ANAME="${1%.*}.zip"  # archive name
+fi
+
+if [ "$#" -ge 3 ]; then
+    SNAME="${1%.*}.c"  # source name
+    ENAME="${2%.*}"  # executable name
+    ANAME="${3%.*}.zip"  # archive name
+fi
+
+echo $SNAME
+echo $ENAME
+echo $ANAME
+
+cat > Makefile << EOF
+# Copyright 2018 Grama Nicolae
+
+CC = gcc
+CFLAGS = -lm -Wall -Wextra -std=c99
+EXE = $ENAME
+SOURCE = ${SNAME}
+
+# Archive settings
+ANAME = ${ANAME}
+ACONTENTS = README Makefile *.c *.h
+AFLAGS = -FSr 
+
+# Compile the program
+build: \$(SOURCE)
+		\$(CC) -o \$(EXE) \$^ \$(CFLAGS)
+
+# Build & run
+run: build
+		./\$(EXE)
+
+# Archive the files
+pack:
+	zip \$(AFLAGS) \$(ANAME) \$(ACONTENTS) 
+	
+.PHONY:pack
+
+# Delete the executable
+clean:
+	rm -f \$(EXE)
+
+.PHONY:clean
+
+# Styles the code, with google's standard. The only difference is
+# that it uses 4 spaces instead of two for "tabs"
+beauty: 
+	clang-format -i -style=file *.c
+
+.PHONY:beauty
+
+EOF
+
+
+cat > .clang-format << EOF
 ---
 Language:        Cpp
 # BasedOnStyle:  Google
@@ -114,5 +188,14 @@ Standard:        Auto
 TabWidth:        8
 UseTab:          Never
 ...
+EOF
 
+cat > ${SNAME} << EOF
+#include <stdio.h>
 
+int main() {
+    
+    return 0;
+}
+
+EOF
