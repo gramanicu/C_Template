@@ -3,8 +3,7 @@
 This is a simple bash script (cproj) that creates a c project template (.c file and a makefile with a .clang-format file, used to style the code)
 
 # Instalation
-1. Give the script execution permisions (if it doesn't have them)
-`sudo chmod +x cproj`
+1. Give the script execution permisions (if it doesn't have them) - `sudo chmod +x cproj`
 2. Move the script into /usr/local/bin or ~/bin
     - `sudo cp cproj /usr/local/bin` - any user can use the script
     - `cp cproj ~/bin` - only the current user can use it
