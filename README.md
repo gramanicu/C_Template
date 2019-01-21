@@ -1,6 +1,6 @@
 # C_Template
 
-   **_cproj_** is a simple bash script that creates a c project template (.c file and a makefile with a .clang-format file, used to style the code)
+This is a simple bash script (cproj) that creates a c project template (.c file and a makefile with a .clang-format file, used to style the code)
 
 # Instalation
 - Give the script execution permisions (if it doesn't have them)
